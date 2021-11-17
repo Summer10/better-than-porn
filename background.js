@@ -36,5 +36,8 @@ function betterThanPorn(tab) {
  * Open a new tab and show the masterpiece from the one and only FilthyFrank
  */
 function showItsTimeToStopVideo() {
-  chrome.tabs.create({ url: 'https://www.youtube.com/watch?v=2k0SmqbBIpQ', active: true });
+  chrome.tabs.create({
+    url: "https://www.youtube.com/watch?v=2k0SmqbBIpQ",
+    active: true,
+  });
 }
