@@ -1,7 +1,12 @@
+let state = true;
+
 chrome.action.onClicked.addListener(() => {
+  state = !state;
   /**
-   * TODO: Toggle activation state of the extension
+   * TODO: Toggle activation indicator of the extension
    */
+  let iconState = state ? "active" : "inactive";
+  chrome.action.setIcon({ path: `/images/${iconState}-icon.png` }, () => {});
 });
 
 chrome.tabs.onActivated.addListener(({ tabId, windowId }) => {
@@ -30,7 +35,7 @@ function isPornUrl(url) {
  * @param {tab} tab The current porn tab
  */
 function betterThanPorn(tab) {
-  chrome.tabs.remove(tab.id).then(showItsTimeToStopVideo());
+  state === true && chrome.tabs.remove(tab.id).then(showItsTimeToStopVideo());
 }
 
 /**
