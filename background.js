@@ -19,8 +19,8 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
  * @param {string} url The url that need to be checked
  */
 function isPornUrl(url) {
-  // TODO: Currently it's a simple regex, next improvement is to make this an ditionary look up
-  const regex = /tinhte\./;
+  // TODO: Currently it's a simple regex, next improvement is to make this an dictionary look up
+  const regex = /tinhte\.|facebook./;
   return url.match(regex) !== null;
 }
 
