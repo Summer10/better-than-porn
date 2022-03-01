@@ -1,12 +1,16 @@
-let state = true;
+chrome.storage.sync.get(["state"]).then((result) => {
+  let iconState = result.state ? "active" : "inactive";
+  chrome.action.setIcon({ path: `/images/${iconState}-icon.png` }, () => {});
+});
+
 
 chrome.action.onClicked.addListener(() => {
-  state = !state;
-  /**
-   * TODO: Toggle activation indicator of the extension
-   */
-  let iconState = state ? "active" : "inactive";
-  chrome.action.setIcon({ path: `/images/${iconState}-icon.png` }, () => {});
+  chrome.storage.sync.get(["state"]).then((result) => {
+    const newState = !result.state;
+    let iconState = newState ? "active" : "inactive";
+    chrome.action.setIcon({ path: `/images/${iconState}-icon.png` }, () => {});
+    chrome.storage.sync.set({ state: newState });
+  });
 });
 
 chrome.tabs.onActivated.addListener(({ tabId, windowId }) => {
@@ -35,7 +39,9 @@ function isPornUrl(url) {
  * @param {tab} tab The current porn tab
  */
 function betterThanPorn(tab) {
-  state === true && chrome.tabs.remove(tab.id).then(showItsTimeToStopVideo());
+  chrome.storage.sync.get(["state"]).then((result) => {
+    result.state === true && chrome.tabs.remove(tab.id).then(showItsTimeToStopVideo());
+  });
 }
 
 /**
